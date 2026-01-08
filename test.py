@@ -81,7 +81,7 @@ def draw_info_panel(frame, recognized_faces, fps):
     cv2.putText(frame, "Press 'q' to quit", (20, 135), FONT_SMALL, 0.5, COLORS['info'], 1)
 
 def draw_face_box(frame, x, y, w, h, name, confidence):
-    """Draw enhanced face detection box with name and confidence"""
+  # Draw enhanced face box with name and confidence
 
     if confidence > 0.7:
         color = COLORS['success']
@@ -124,7 +124,7 @@ def draw_face_box(frame, x, y, w, h, name, confidence):
     cv2.line(frame, (x + w, y + h - corner_size), (x + w, y + h), color, 3)
 
 def calculate_confidence(distances):
-    """Calculate confidence score based on KNN distances"""
+    # Calculate confidence based on distances to nearest neighbors
     if len(distances) == 0:
         return 0.0
     
