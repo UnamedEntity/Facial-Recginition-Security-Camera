@@ -7,7 +7,7 @@ import os
 import time
 from datetime import datetime
 
-# Initialize video capture
+
 video = cv2.VideoCapture(0)
 facedetect = cv2.CascadeClassifier('data/haarcascade_frontalface_default.xml')
 
@@ -21,7 +21,7 @@ try:
     with open(faces_path, 'rb') as f:
         FACES = pickle.load(f)
     
-    # Validate data consistency
+    
     if len(FACES) != len(LABELS):
         print(f"Data mismatch: {len(FACES)} faces, {len(LABELS)} labels.")
         print("Please re-collect your face data to ensure both files match.")
