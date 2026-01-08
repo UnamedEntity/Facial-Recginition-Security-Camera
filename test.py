@@ -128,7 +128,7 @@ def calculate_confidence(distances):
     if len(distances) == 0:
         return 0.0
     
-    # Convert distances to confidence (closer = higher confidence)
+    
     avg_distance = np.mean(distances)
     confidence = max(0, 1 - (avg_distance / 1000))  # Normalize to 0-1
     return confidence
