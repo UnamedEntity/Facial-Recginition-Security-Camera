@@ -12,7 +12,6 @@ def check_and_fix_data():
     names_path = 'data/names.pkl'
     
     try:
-        # Load current data
         with open(faces_path, 'rb') as f:
             faces = pickle.load(f)
         with open(names_path, 'rb') as f:
@@ -45,15 +44,15 @@ def check_and_fix_data():
             print(f"\nFixed data:")
             print(f"  Faces shape: {faces.shape}")
             print(f"  Names length: {len(names)}")
-            print("✅ Data consistency fixed!")
+            print(" Data consistency fixed!")
             
             return True
         else:
-            print("✅ Data is already consistent!")
+            print(" Data is already consistent!")
             return True
             
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f" Error: {e}")
         return False
 
 def reset_data():
@@ -64,23 +63,23 @@ def reset_data():
     if os.path.exists('data/face_data.pkl'):
         import shutil
         shutil.copy('data/face_data.pkl', 'data/face_data_backup.pkl')
-        print("✅ Created backup: data/face_data_backup.pkl")
+        print(" Created backup: data/face_data_backup.pkl")
     
     if os.path.exists('data/names.pkl'):
         import shutil
         shutil.copy('data/names.pkl', 'data/names_backup.pkl')
-        print("✅ Created backup: data/names_backup.pkl")
+        print(" Created backup: data/names_backup.pkl")
     
     # Remove corrupted files
     if os.path.exists('data/face_data.pkl'):
         os.remove('data/face_data.pkl')
-        print("🗑️ Removed face_data.pkl")
+        print(" Removed face_data.pkl")
     
     if os.path.exists('data/names.pkl'):
         os.remove('data/names.pkl')
-        print("🗑️ Removed names.pkl")
+        print(" Removed names.pkl")
     
-    print("✅ Data reset complete!")
+    print(" Data reset complete!")
 
 def test_model():
     """Test if the model can be trained successfully"""
@@ -89,7 +88,6 @@ def test_model():
     try:
         from sklearn.neighbors import KNeighborsClassifier
         
-        # Load data
         with open('data/face_data.pkl', 'rb') as f:
             faces = pickle.load(f)
         with open('data/names.pkl', 'rb') as f:
@@ -97,27 +95,26 @@ def test_model():
         
         print(f"Training model with {len(faces)} samples...")
         
-        # Train model
+        
         knn = KNeighborsClassifier(n_neighbors=3, weights='distance', metric='euclidean')
         knn.fit(faces, names)
         
-        print("✅ Model training successful!")
+        print("Model training successful!")
         print(f"  Features per sample: {faces.shape[1]}")
         print(f"  Total samples: {faces.shape[0]}")
         
         return True
         
     except Exception as e:
-        print(f"❌ Model training failed: {e}")
+        print(f"Model training failed: {e}")
         return False
 
 def main():
     print("Facial Recognition Data Fixer")
     print("=" * 40)
-    
-    # Check and fix data
+
     if not check_and_fix_data():
-        print("\n❌ Could not fix data automatically.")
+        print("\nCould not fix data automatically.")
         choice = input("Would you like to reset the data? (y/n): ").lower()
         if choice == 'y':
             reset_data()
@@ -127,12 +124,12 @@ def main():
             print("Please manually fix the data files.")
             return
     
-    # Test model training
+
     if test_model():
-        print("\n🎉 Everything is working correctly!")
+        print("\n Everything is working correctly!")
         print("You can now run 'python test.py' to start the facial recognition system.")
     else:
-        print("\n⚠️ Model training failed. Consider resetting data.")
+        print("\n Model training failed. Consider resetting data.")
         choice = input("Would you like to reset the data? (y/n): ").lower()
         if choice == 'y':
             reset_data()
