@@ -101,7 +101,7 @@ def draw_face_box(frame, x, y, w, h, name, confidence):
     cv2.rectangle(frame, (x, y - name_bg_height), (x + w, y), color, -1)
     cv2.rectangle(frame, (x, y - name_bg_height), (x + w, y), COLORS['secondary'], 1)
     
-    # Name text
+  
     cv2.putText(frame, name, (x + 5, y - 20), FONT_SMALL, 0.7, COLORS['secondary'], 2)
     
 
@@ -130,14 +130,14 @@ def calculate_confidence(distances):
     
     
     avg_distance = np.mean(distances)
-    confidence = max(0, 1 - (avg_distance / 1000))  # Normalize to 0-1
+    confidence = max(0, 1 - (avg_distance / 1000)) 
     return confidence
 
-# Main recognition loop
+
 recognized_faces = []
 fps_counter = 0
 fps_start_time = time.time()
-fps = 0  # Initialize fps variable
+fps = 0  
 
 print("Starting Facial Recognition System...")
 print("Press 'q' to quit")
@@ -150,11 +150,10 @@ while True:
     
     # Resize frame for better performance
     frame = cv2.resize(frame, (WINDOW_WIDTH, WINDOW_HEIGHT))
-    
-    # Convert to grayscale for face detection
+   
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     
-    # Enhanced face detection parameters
+  
     faces = facedetect.detectMultiScale(
         gray, 
         scaleFactor=1.1, 
@@ -166,17 +165,17 @@ while True:
     recognized_faces = []
     
     for (x, y, w, h) in faces:
-        # Extract and preprocess face with same preprocessing as training
+        
         face_roi = gray[y:y + h, x:x + w]
         face_roi = cv2.resize(face_roi, (50, 50))
         
-        # Apply same preprocessing as in add_face.py
+      
         face_roi = cv2.equalizeHist(face_roi)
         face_roi = cv2.GaussianBlur(face_roi, (3, 3), 0)
         
         face_roi = face_roi.flatten().reshape(1, -1)
         
-        # Predict with confidence
+       
         try:
             distances, indices = knn.kneighbors(face_roi)
             prediction = knn.predict(face_roi)[0]
@@ -197,30 +196,29 @@ while True:
             cv2.rectangle(frame, (x, y), (x + w, y + h), COLORS['danger'], 2)
             cv2.putText(frame, "Unknown", (x, y - 10), FONT_SMALL, 0.7, COLORS['danger'], 2)
     
-    # Calculate FPS
     fps_counter += 1
     if time.time() - fps_start_time >= 1.0:
         fps = fps_counter
         fps_counter = 0
         fps_start_time = time.time()
     
-    # Draw information panel
+    
     draw_info_panel(frame, recognized_faces, fps)
     
-    # Display frame
+    
     cv2.imshow("Facial Recognition Security Camera", frame)
     
-    # Handle key presses
+    
     k = cv2.waitKey(1) & 0xFF
     if k == ord('q'):
         break
-    elif k == ord('s'):  # Save screenshot
+    elif k == ord('s'):  
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"screenshot_{timestamp}.jpg"
         cv2.imwrite(filename, frame)
         print(f"Screenshot saved as {filename}")
 
-# Cleanup
+
 video.release()
 cv2.destroyAllWindows()
 print("Facial Recognition System stopped.")
