@@ -10,12 +10,12 @@ def wipe_data():
         if os.path.exists(file_path):
             try:
                 os.remove(file_path)
-                print(f"✅ Deleted old file: {file_path}")
+                print(f"Deleted old file: {file_path}")
                 deleted_any = True
             except Exception as e:
-                print(f"❌ Error deleting {file_path}: {e}")
+                print(f"Error deleting {file_path}: {e}")
         else:
-            print(f"ℹ️  File not found (clean): {file_path}")
+            print(f"ℹFile not found (clean): {file_path}")
     
     if deleted_any:
         print("\nSUCCESS: Old incompatible data removed.")
